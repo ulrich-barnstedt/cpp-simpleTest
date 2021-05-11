@@ -5,8 +5,8 @@
 #include <functional>
 
 //macros to make definition of tests easier
-#define T_BINDING_UNIT(Group, Name, Executes, Binds) TEST::NamedUnit([Binds] (TEST::T &T) Executes, Group, Name);
 #define T_UNIT(Group, Name, Executes) TEST::NamedUnit([] (TEST::T &T) Executes, Group, Name);
+#define T_BINDING_UNIT(Group, Name, Binds, Executes) TEST::NamedUnit([Binds] (TEST::T &T) Executes, Group, Name); //define manually for binding multiple vars
 #define T_EXPECT(Expression) T.EXPECT(Expression);
 #define T_CONTEXT (TEST::T &T)
 
