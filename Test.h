@@ -48,6 +48,8 @@ namespace TEST {
         }
     };
 
+    //Create a test unit
+    //Name can be specified with T.CONTAINS in the test itself
     void Unit(const std::function<void(T &ctx)> &FN) {
         T ctx;
         FN(ctx);
@@ -55,6 +57,7 @@ namespace TEST {
         ctx.results();
     }
 
+    //Create a test unit with name pre-defined
     void NamedUnit (const std::function<void(T &ctx)> &FN, const std::string &group, const std::string &name) {
         T ctx;
         ctx.CONTAINS(group, name);
