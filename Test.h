@@ -1,8 +1,17 @@
+//https://github.com/ulrich-barnstedt/cpp-simpleTest
+
 #pragma once
 #include <iostream>
 #include <functional>
 
+//macros to make definition of tests easier
+#define T_BINDING_UNIT(Group, Name, Executes, Binds) TEST::NamedUnit([Binds] (TEST::T &T) Executes, Group, Name);
+#define T_UNIT(Group, Name, Executes) TEST::NamedUnit([] (TEST::T &T) Executes, Group, Name);
+#define T_EXPECT(Expression) T.EXPECT(Expression);
+#define T_CONTEXT (TEST::T &T)
+
 namespace TEST {
+    //class T represents the "test-context" specific data
     class T {
     private:
         int assertionsFailed;
@@ -39,8 +48,16 @@ namespace TEST {
         }
     };
 
-    void UNIT(const std::function<void(T &ctx)> &FN) {
+    void Unit(const std::function<void(T &ctx)> &FN) {
         T ctx;
+        FN(ctx);
+
+        ctx.results();
+    }
+
+    void NamedUnit (const std::function<void(T &ctx)> &FN, const std::string &group, const std::string &name) {
+        T ctx;
+        ctx.CONTAINS(group, name);
         FN(ctx);
 
         ctx.results();
