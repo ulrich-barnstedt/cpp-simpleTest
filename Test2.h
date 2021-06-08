@@ -45,8 +45,7 @@ namespace TEST2 {
                 if (total == PASSED) return;
 
                 for (const TEST_RESULT &res : results) {
-                    if (res.result == PASSED) continue;
-                    std::cout << "  " << (last ? " " : "│") << "      ── [FAILED] " << res.content << std::endl;
+                    std::cout << "  " << (last ? " " : "│") << "      ── [" << (res.result == PASSED ? "PASSED" : "FAILED") << "] " << res.content << std::endl;
                 }
             }
     };
