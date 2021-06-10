@@ -5,9 +5,17 @@
 #include <functional>
 #include <vector>
 
+//workaround to make library work on windows (with proper output)
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+    #include <Windows.h>
+    #define SET_CONSOLE_MACRO SetConsoleOutputCP(CP_UTF8);
+#else
+    #define SET_CONSOLE_MACRO
+#endif
+
 #define T_TEST(name, content) G.RUN(#name, [] (TEST2::TEST_CONTEXT &T) content)
 #define T_TEST_BINDING(name, vars, content) G.RUN(#name, [vars] (TEST2::TEST_CONTEXT &T) content)
-#define T_GROUP(name, content) void testGroup__##name () { TEST2::GROUP_CONTEXT G (#name); content; G.RESULT(); }
+#define T_GROUP(name, content) void testGroup__##name () { SET_CONSOLE_MACRO TEST2::GROUP_CONTEXT G (#name); content; G.RESULT(); }
 #define T_EXPECT(condition) T.EXPECT(condition, #condition)
 #define T_EXECUTE(group) testGroup__##group ()
 
